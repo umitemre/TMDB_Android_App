@@ -1,21 +1,23 @@
 package com.example.mobilliumcase.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mobilliumcase.R
 import com.example.mobilliumcase.adapter.HomeAdapter
 import com.example.mobilliumcase.databinding.FragmentHomeBinding
 import com.example.mobilliumcase.decorator.SimpleItemDecorator
 import com.example.mobilliumcase.di.DaggerHomeFragmentViewModelComponent
+import com.example.mobilliumcase.listener.OnAdapterItemClick
+import com.example.mobilliumcase.model.Result
 import com.example.mobilliumcase.viewmodel.HomeFragmentViewModel
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-private const val TAG = "HomeFragment"
 class HomeFragment : DaggerFragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -40,27 +42,36 @@ class HomeFragment : DaggerFragment() {
         val viewModelComponent = DaggerHomeFragmentViewModelComponent.create()
         viewModelComponent.inject(viewModel)
 
+        homeAdapter.onAdapterItemClickListener = onAdapterItemClickListener
+
         viewModel.apply {
             getNowPlayingObservable().observe(viewLifecycleOwner) {
-                Log.d(TAG, "getNowPlayingObservable: Data has returned! Size: " + it.results.size)
+                if (viewModel.nowPlayingAck)
+                    return@observe
 
                 homeAdapter.setSliderItems(it.results)
                 homeAdapter.notifyItemChanged(0)
 
+                viewModel.nowPlayingAck = true
                 binding.swipeRefreshLayout.isRefreshing = false
             }
 
             getUpcomingObservable().observe(viewLifecycleOwner) {
-                Log.d(TAG, "getUpcomingObservable: Data has returned! Size: " + it.results.size)
+                if (viewModel.upComingAck)
+                    return@observe
 
                 homeAdapter.setUpcomingItems(it.results)
                 homeAdapter.notifyItemRangeChanged(1, it.results.size)
 
+                viewModel.upComingAck = true
                 binding.swipeRefreshLayout.isRefreshing = false
             }
 
-            fetchNowPlaying()
-            fetchUpcoming()
+            if (!viewModel.nowPlayingAck)
+                fetchNowPlaying()
+
+            if (!viewModel.upComingAck)
+                fetchUpcoming()
         }
 
         binding.apply {
@@ -72,6 +83,10 @@ class HomeFragment : DaggerFragment() {
             }
 
             swipeRefreshLayout.setOnRefreshListener {
+                viewModel.nowPlayingAck = false
+                viewModel.upComingAck = false
+
+                viewModel.fetchNowPlaying()
                 viewModel.fetchUpcoming()
             }
         }
@@ -80,5 +95,13 @@ class HomeFragment : DaggerFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private val onAdapterItemClickListener: OnAdapterItemClick<Result> = object: OnAdapterItemClick<Result> {
+        override fun onItemClick(item: Result) {
+            val bundle = Bundle()
+            bundle.putInt("Result", item.id)
+            findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
+        }
     }
 }

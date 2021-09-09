@@ -4,25 +4,16 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
-import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
 
-data class Result(
-    val adult: Boolean,
+data class MovieDetail(
     val backdrop_path: String,
-    val genre_ids: List<Int>,
     val id: Int,
-    val original_language: String,
-    val original_title: String,
     val overview: String,
-    val popularity: Double,
-    val poster_path: String,
     val release_date: String,
     val title: String,
-    val video: Boolean,
-    val vote_average: Double,
-    val vote_count: Int
+    val vote_average: Double
 ) {
     companion object {
         @JvmStatic
@@ -48,7 +39,11 @@ data class Result(
         }
     }
 
+
     fun getTitleWithReleaseYear(): String {
+        if (release_date.isEmpty())
+            return title
+
         val fromDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
         val parsedDate = fromDateFormat.parse(release_date) ?: return title
 

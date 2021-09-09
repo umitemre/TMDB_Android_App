@@ -2,8 +2,12 @@
 <resources>
     <color name="colorPrimary">#ff6500</color>
     <color name="colorPrimaryDark">#ff6500</color>
-    <color name="colorAccent">#02155a</color>
+    <color name="colorAccent">#348FAC</color>
 
     <color name="text_black">#2B2D42</color>
     <color name="text_gray">#8D99AE</color>
+    <color name="dark_gray">#ADB5BD</color>
+
+    <color name="active_dot_color">#ffffffff</color>
+    <color name="inactive_dot_color">#4dffffff</color>
 </resources>

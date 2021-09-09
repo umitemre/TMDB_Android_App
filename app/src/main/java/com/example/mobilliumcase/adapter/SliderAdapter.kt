@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobilliumcase.databinding.SliderItemBinding
+import com.example.mobilliumcase.listener.OnAdapterItemClick
 import com.example.mobilliumcase.model.Result
 import javax.inject.Inject
 
@@ -11,6 +12,8 @@ class SliderAdapter @Inject constructor() :
     RecyclerView.Adapter<SliderAdapter.SliderViewHolder>() {
 
     private var sliderItems: List<Result>? = null
+
+    lateinit var onAdapterItemClickListener: OnAdapterItemClick<Result>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SliderViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -40,6 +43,15 @@ class SliderAdapter @Inject constructor() :
         fun bind(position: Int) {
             if (sliderItems == null) {
                 return
+            }
+
+            itemView.isClickable = true
+            itemView.isFocusable = true
+
+            val result = sliderItems!![position]
+
+            itemView.setOnClickListener {
+                onAdapterItemClickListener.onItemClick(result)
             }
 
             binding.sliderItem = sliderItems!![position]

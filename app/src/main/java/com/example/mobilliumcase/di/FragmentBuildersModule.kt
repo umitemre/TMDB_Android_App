@@ -5,7 +5,7 @@ import com.example.mobilliumcase.fragment.HomeFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
-@Module
+@Module()
 abstract class FragmentBuildersModule {
     @ContributesAndroidInjector
     abstract fun contributeHomeFragment(): HomeFragment
