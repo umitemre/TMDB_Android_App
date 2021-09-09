@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "GitHub Repo Explorer"
+rootProject.name = "Mobillium Case"
