@@ -5,17 +5,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mobilliumcase.model.ApiResponse
 import com.example.mobilliumcase.network.ApiRequest
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.awaitResponse
 import javax.inject.Inject
 
 private const val TAG = "HomeFragmentViewModel"
 class HomeFragmentViewModel @Inject constructor(): ViewModel() {
+    var nowPlayingPage: Int = 1
+    var isLoading: Boolean = false
+
     @Inject
     lateinit var apiRequest: ApiRequest
 
@@ -41,7 +41,7 @@ class HomeFragmentViewModel @Inject constructor(): ViewModel() {
 
     fun fetchUpcoming() {
         viewModelScope.launch {
-            apiRequest.getUpcoming().enqueue(object: Callback<ApiResponse> {
+            apiRequest.getUpcoming(nowPlayingPage).enqueue(object: Callback<ApiResponse> {
                 override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
                     _upComingResponse.postValue(response.body())
                 }
@@ -59,5 +59,12 @@ class HomeFragmentViewModel @Inject constructor(): ViewModel() {
 
     fun getUpcomingObservable(): MutableLiveData<ApiResponse> {
         return _upComingResponse
+    }
+
+    fun getNextPage() {
+        nowPlayingPage += 1
+
+        upComingAck = false
+        fetchUpcoming()
     }
 }

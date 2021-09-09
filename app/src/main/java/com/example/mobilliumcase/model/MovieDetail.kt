@@ -18,7 +18,7 @@ data class MovieDetail(
     companion object {
         @JvmStatic
         @BindingAdapter("app:w500Image", requireAll = false)
-        fun setImage(imageView: AppCompatImageView, path: String) {
+        fun setImage(imageView: AppCompatImageView, path: String?) {
             Glide.with(imageView.context)
                 .load("https://image.tmdb.org/t/p/w500$path")
                 .into(imageView)

@@ -1,6 +1,7 @@
 package com.example.mobilliumcase.adapter
 
 import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +24,7 @@ class HomeAdapter @Inject constructor() :
     RecyclerView.Adapter<HomeAdapter.BaseViewHolder>() {
 
     private var sliderItems: List<Result>? = null
-    private var upcomingItems: List<Result>? = null
+    private var upcomingItems: ArrayList<Result> = ArrayList()
 
     @Inject
     lateinit var sliderAdapter: SliderAdapter
@@ -47,10 +48,7 @@ class HomeAdapter @Inject constructor() :
     }
 
     override fun getItemCount(): Int {
-        if (upcomingItems == null)
-            return 1
-
-        return upcomingItems!!.size + 1
+        return upcomingItems.size + 1
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -64,8 +62,12 @@ class HomeAdapter @Inject constructor() :
         this.sliderItems = results
     }
 
-    fun setUpcomingItems(results: List<Result>) {
-        this.upcomingItems = results
+    fun appendUpcomingItems(results: ArrayList<Result>) {
+        this.upcomingItems.addAll(results)
+    }
+
+    fun clearUpcomingItems() {
+        this.upcomingItems.clear()
     }
 
     abstract inner class BaseViewHolder(itemView: View) :
@@ -133,14 +135,12 @@ class HomeAdapter @Inject constructor() :
         HomeAdapter.BaseViewHolder(binding.root) {
 
         override fun bind(position: Int) {
-            if (upcomingItems == null) {
-                return
-            }
-
             itemView.isClickable = true
             itemView.isFocusable = true
 
-            val result = upcomingItems!![position - 1]
+            val result = upcomingItems[position - 1]
+
+            Log.d("TAG", "bind: $result")
 
             itemView.setOnClickListener {
                 onAdapterItemClickListener.onItemClick(result)

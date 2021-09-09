@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobilliumcase.R
 import com.example.mobilliumcase.adapter.HomeAdapter
@@ -60,8 +61,11 @@ class HomeFragment : DaggerFragment() {
                 if (viewModel.upComingAck)
                     return@observe
 
-                homeAdapter.setUpcomingItems(it.results)
-                homeAdapter.notifyItemRangeChanged(1, it.results.size)
+                // Get all item counts minus slider item
+                val previousItemCount = homeAdapter.itemCount
+
+                homeAdapter.appendUpcomingItems(it.results)
+                homeAdapter.notifyItemRangeInserted(previousItemCount, it.results.size)
 
                 viewModel.upComingAck = true
                 binding.swipeRefreshLayout.isRefreshing = false
@@ -80,11 +84,33 @@ class HomeFragment : DaggerFragment() {
                 addItemDecoration(itemDecorator)
 
                 adapter = homeAdapter
+
+                addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
+
+                        val layoutManager = (recyclerView.layoutManager!!) as LinearLayoutManager
+
+                        val visibleItemCount = layoutManager.childCount
+                        val pastVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition()
+                        val total = homeAdapter.itemCount
+
+                        if (viewModel.isLoading) return
+                        // if (!viewModel.hasMore) return
+                        if ((visibleItemCount + pastVisibleItem) < total) return
+
+                        viewModel.getNextPage()
+                    }
+                })
             }
 
             swipeRefreshLayout.setOnRefreshListener {
                 viewModel.nowPlayingAck = false
                 viewModel.upComingAck = false
+
+                viewModel.nowPlayingPage = 1
+                homeAdapter.clearUpcomingItems()
+                homeAdapter.notifyDataSetChanged()
 
                 viewModel.fetchNowPlaying()
                 viewModel.fetchUpcoming()
