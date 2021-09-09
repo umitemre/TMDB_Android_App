@@ -1,5 +1,7 @@
 package com.example.mobilliumcase.fragment
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,7 +12,6 @@ import com.example.mobilliumcase.databinding.FragmentDetailBinding
 import com.example.mobilliumcase.di.DaggerDetailFragmentViewModelComponent
 import com.example.mobilliumcase.viewmodel.DetailFragmentViewModel
 import dagger.android.support.DaggerFragment
-
 
 private const val TAG = "DetailFragment"
 
@@ -48,10 +49,25 @@ class DetailFragment : DaggerFragment() {
         })
 
         viewModel.fetchMovieDetail(movieId)
+
+        binding.ibImdb.setOnClickListener {
+            val imdbId = binding.ibImdb.tag as String
+            if (imdbId.isNotEmpty())
+                openWebPage("https://www.imdb.com/title/${binding.ibImdb.tag}/")
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun openWebPage(url: String) {
+        val webpage: Uri = Uri.parse(url)
+        val intent = Intent(Intent.ACTION_VIEW, webpage)
+
+        if (requireContext().packageManager.resolveActivity(intent, 0) != null) {
+            startActivity(intent)
+        }
     }
 }

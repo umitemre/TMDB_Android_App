@@ -23,11 +23,12 @@ class DetailFragmentViewModel @Inject constructor(): ViewModel() {
 
         // Create dummy data
         _detailResponse.value = MovieDetail(
-            id = 0,
             backdrop_path = "",
-            title = "",
+            id = 0,
             overview = "",
             release_date = "",
+            title = "",
+            imdb_id = "",
             vote_average = 0.0
         )
     }

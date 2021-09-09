@@ -94,7 +94,10 @@ class HomeAdapter @Inject constructor() :
                 }
             })
 
-            sliderItems?.size?.let { createDots(it) }
+
+            sliderItems?.size?.let {
+                createDots(it)
+            }
         }
 
         private fun setSelectedDot(position: Int) {
@@ -118,6 +121,11 @@ class HomeAdapter @Inject constructor() :
         }
 
         private fun createDots(count: Int) {
+            // Clear dots
+            dots.clear()
+
+            binding.dotsContainer.removeAllViews()
+
             for (i in 0 until count) {
                 val t = TextView(itemView.context)
                 t.text = Html.fromHtml("&#9679;")

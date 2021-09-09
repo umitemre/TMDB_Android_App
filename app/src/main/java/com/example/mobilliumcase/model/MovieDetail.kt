@@ -13,6 +13,7 @@ data class MovieDetail(
     val overview: String,
     val release_date: String,
     val title: String,
+    val imdb_id: String,
     val vote_average: Double
 ) {
     companion object {

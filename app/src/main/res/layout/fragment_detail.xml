@@ -16,7 +16,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             tools:context=".fragment.DetailFragment">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -40,24 +40,27 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imageView2"
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ib_imdb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:background="@color/color_trans"
+                android:tag="@{viewModel.detailObservable.imdb_id}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_backdrop"
-                app:srcCompat="@drawable/ic_imdb_logo" />
+                app:srcCompat="@drawable/ic_imdb_logo"
+                tools:ignore="TouchTargetSizeCheck" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-                app:layout_constraintStart_toEndOf="@+id/imageView2"
-                app:layout_constraintTop_toTopOf="@+id/imageView2"
+                app:layout_constraintBottom_toBottomOf="@+id/ib_imdb"
+                app:layout_constraintStart_toEndOf="@+id/ib_imdb"
+                app:layout_constraintTop_toTopOf="@+id/ib_imdb"
                 app:srcCompat="@drawable/ic_rate" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -70,9 +73,10 @@
                 android:text="@{String.valueOf(viewModel.detailObservable.vote_average)}"
                 android:textColor="@color/text_black"
                 android:textSize="13sp"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+                app:layout_constraintBottom_toBottomOf="@+id/ib_imdb"
                 app:layout_constraintStart_toEndOf="@+id/imageView3"
-                app:layout_constraintTop_toTopOf="@+id/imageView2" />
+                app:layout_constraintTop_toTopOf="@+id/ib_imdb"
+                tools:text="7.8" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textView2"
@@ -83,18 +87,19 @@
                 android:text="/10"
                 android:textColor="@color/dark_gray"
                 android:textSize="13sp"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+                app:layout_constraintBottom_toBottomOf="@+id/ib_imdb"
                 app:layout_constraintStart_toEndOf="@+id/tv_rating"
-                app:layout_constraintTop_toTopOf="@+id/imageView2" />
+                app:layout_constraintTop_toTopOf="@+id/ib_imdb"
+                tools:ignore="HardcodedText" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+                app:layout_constraintBottom_toBottomOf="@+id/ib_imdb"
                 app:layout_constraintStart_toEndOf="@+id/textView2"
-                app:layout_constraintTop_toTopOf="@+id/imageView2"
+                app:layout_constraintTop_toTopOf="@+id/ib_imdb"
                 app:srcCompat="@drawable/little_dot" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -107,9 +112,9 @@
                 android:textColor="@color/text_black"
                 android:textSize="13sp"
                 app:date="@{viewModel.detailObservable.release_date}"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+                app:layout_constraintBottom_toBottomOf="@+id/ib_imdb"
                 app:layout_constraintStart_toEndOf="@+id/imageView4"
-                app:layout_constraintTop_toTopOf="@+id/imageView2"
+                app:layout_constraintTop_toTopOf="@+id/ib_imdb"
                 tools:text="15.06.2021"/>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -119,15 +124,13 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
                 android:fontFamily="@font/roboto_bold"
                 android:text="@{viewModel.detailObservable.getTitleWithReleaseYear()}"
                 android:textColor="@color/text_black"
                 android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/tv_description"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView2"
+                app:layout_constraintTop_toBottomOf="@+id/ib_imdb"
                 tools:text="Moonrise Kingdom (2012)" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -137,12 +140,12 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="16dp"
                 android:fontFamily="@font/roboto"
                 android:text="@{viewModel.detailObservable.overview}"
                 android:textColor="@color/text_black"
                 android:textSize="15sp"
-                app:layout_constraintBottom_toTopOf="@+id/tv_description"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
