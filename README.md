@@ -3,6 +3,6 @@ A small project that I've created in Kotlin using MVVM Architecture. With this a
 
 ## Used Libraries
 - AndroidX - For obvious reasons
-- Dagger2  - For dependency injection
+- Dagger & Hilt - For dependency injection
 - Retrofit2 - For fetching now playing and upcoming movies and their details from TMDB API.
 - Glide - Caching and displaying back drop and poster images of movies

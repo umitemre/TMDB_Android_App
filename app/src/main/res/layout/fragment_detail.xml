@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View" />
         <variable
-            name="viewModel"
-            type="com.example.mobilliumcase.viewmodel.DetailFragmentViewModel" />
+            name="movieDetail"
+            type="com.example.mobilliumcase.model.MovieDetail" />
     </data>
 
     <ScrollView
@@ -24,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/slider_height"
                 android:scaleType="centerCrop"
-                app:w500Image="@{viewModel.detailObservable.backdrop_path}"
+                app:w500Image="@{movieDetail.backdrop_path}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -47,7 +46,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:background="@color/color_trans"
-                android:tag="@{viewModel.detailObservable.imdb_id}"
+                android:tag="@{movieDetail.imdb_id}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_backdrop"
                 app:srcCompat="@drawable/ic_imdb_logo"
@@ -70,7 +69,7 @@
                 android:layout_marginStart="4dp"
                 android:fontFamily="@font/roboto_medium"
                 android:includeFontPadding="false"
-                android:text="@{String.valueOf(viewModel.detailObservable.vote_average)}"
+                android:text="@{String.valueOf(movieDetail.vote_average)}"
                 android:textColor="@color/text_black"
                 android:textSize="13sp"
                 app:layout_constraintBottom_toBottomOf="@+id/ib_imdb"
@@ -111,11 +110,11 @@
                 android:includeFontPadding="false"
                 android:textColor="@color/text_black"
                 android:textSize="13sp"
-                app:date="@{viewModel.detailObservable.release_date}"
+                app:date="@{movieDetail.release_date}"
                 app:layout_constraintBottom_toBottomOf="@+id/ib_imdb"
                 app:layout_constraintStart_toEndOf="@+id/imageView4"
                 app:layout_constraintTop_toTopOf="@+id/ib_imdb"
-                tools:text="15.06.2021"/>
+                tools:text="15.06.2021" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_title"
@@ -125,7 +124,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/roboto_bold"
-                android:text="@{viewModel.detailObservable.getTitleWithReleaseYear()}"
+                app:titleOf="@{movieDetail}"
                 android:textColor="@color/text_black"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -142,7 +141,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:fontFamily="@font/roboto"
-                android:text="@{viewModel.detailObservable.overview}"
+                android:text="@{movieDetail.overview}"
                 android:textColor="@color/text_black"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -152,17 +151,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_title"
                 app:lineHeight="20sp"
                 tools:text="Moonrise Kingdom is a 2012 American coming-of-age comedy-drama film directed by Wes Anderson, written by Anderson and Roman Coppola. It features an ensemble cast including Bruce Willis, Edward Norton, Bill Murray, Frances McDormand, Tilda Swinton, Jason Schwartzman, Bob Balaban, Harvey Keitel, and newcomers Jared Gilman and Kara Hayward. Largely set on the fictional New England island of New Penzance, it tells the story of an orphan boy (Gilman) who escapes from a scouting camp to unite with his pen pal and love interest, a girl with aggressive tendencies (Hayward). Feeling alienated from their guardians and shunned by their peers, the lovers abscond to an isolated beach. Meanwhile, the island's police captain (Willis) organizes a search party of scouts and family members to locate the runaways.  In crafting their screenplay, Anderson and Coppola drew from personal experiences and memories of" />
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_backdrop"
-                app:layout_constraintEnd_toEndOf="@+id/iv_backdrop"
-                app:layout_constraintStart_toStartOf="@+id/iv_backdrop"
-                app:layout_constraintTop_toTopOf="@+id/iv_backdrop" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

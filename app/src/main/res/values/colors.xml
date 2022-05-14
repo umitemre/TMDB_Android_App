@@ -10,6 +10,4 @@
 
     <color name="color_trans">#00ffffff</color>
 
-    <color name="active_dot_color">#ffffffff</color>
-    <color name="inactive_dot_color">#4dffffff</color>
 </resources>
